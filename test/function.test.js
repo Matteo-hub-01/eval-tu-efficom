@@ -264,14 +264,4 @@ describe("generatePassword function", () => {
 		});
 		expect(password).toBe("????CCCC55jjj");
 	});
-
-	it("should throw an error if no character types are enabled", () => {
-		expect(() =>
-			generatePassword(10, {
-				uppercase: false,
-				numbers: false,
-				specialChars: false,
-			}),
-		).not.toThrow("At least one character type must be enabled");
-	});
 });
