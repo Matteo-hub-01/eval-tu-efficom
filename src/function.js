@@ -52,6 +52,7 @@ function processPurchase(cart, taxRate) {
 	return totalPrice;
 }
 
+
 /**
  * Generate a random password based on length and complexity required
  * @param {Number} length length of password to generate
