@@ -9,7 +9,16 @@ const {
 describe("isEven function", () => {
 	test("should throw an error if input is not a number", () => {
 		try {
-			const result = isEven(4);
+			const result = isEven("e");
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Input must be a number");
+		}
+	});
+
+	test("should throw an error if input is not a number", () => {
+		try {
+			const result = isEven(null);
 		} catch (e) {
 			expect(e).not.toBeNull();
 			expect(e.message).toBe("Input must be a number");
