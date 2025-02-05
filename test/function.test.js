@@ -44,7 +44,7 @@ describe("calculateTotalPrice function", () => {
 		}
 	});
 
-    test("should throw an error if element array is not a number", () => {
+	test("should throw an error if element array is not a number", () => {
 		try {
 			const result = calculateTotalPrice(["4"], 25);
 		} catch (e) {
@@ -53,7 +53,7 @@ describe("calculateTotalPrice function", () => {
 		}
 	});
 
-    test("should throw an error if element array is not a negative number", () => {
+	test("should throw an error if element array is not a negative number", () => {
 		try {
 			const result = calculateTotalPrice([-4], 25);
 		} catch (e) {
@@ -62,12 +62,12 @@ describe("calculateTotalPrice function", () => {
 		}
 	});
 
-    test("should return total price", () => {
-        expect(calculateTotalPrice([4], 25)).toEqual(104);
+	test("should return total price", () => {
+		expect(calculateTotalPrice([4], 25)).toEqual(104);
 	});
 
 	test("should return not total price", () => {
-        expect(calculateTotalPrice([4], 25)).not.toEqual(100);
+		expect(calculateTotalPrice([4], 25)).not.toEqual(100);
 	});
 });
 
@@ -82,7 +82,6 @@ describe("sendNotification function", () => {
 		consoleSpy.mockRestore();
 	});
 });
-
 
 describe("process Purchase function", () => {
 	test("should throw an error if input is not an array", () => {
@@ -103,7 +102,7 @@ describe("process Purchase function", () => {
 		}
 	});
 
-    test("should throw an error if element array is not a number", () => {
+	test("should throw an error if element array is not a number", () => {
 		try {
 			const result = processPurchase(["4"], 25);
 		} catch (e) {
@@ -112,7 +111,7 @@ describe("process Purchase function", () => {
 		}
 	});
 
-    test("should throw an error if element array is not a negative number", () => {
+	test("should throw an error if element array is not a negative number", () => {
 		try {
 			const result = processPurchase([-4], 25);
 		} catch (e) {
@@ -121,12 +120,12 @@ describe("process Purchase function", () => {
 		}
 	});
 
-    test("should return total price", () => {
-        expect(processPurchase([4], 25)).toEqual(104);
+	test("should return total price", () => {
+		expect(processPurchase([4], 25)).toEqual(104);
 	});
 
 	test("should return not total price", () => {
-        expect(processPurchase([4], 25)).not.toEqual(100);
+		expect(processPurchase([4], 25)).not.toEqual(100);
 	});
 
 	test("should log the correct message", () => {
@@ -144,20 +143,74 @@ describe("process Purchase function", () => {
 });
 
 describe("generatePassword function", () => {
-    test("should throw an error if length is not a number", () => {
-        expect(() => generatePassword("10")).toThrow("Length must be a number");
-    });
+	test("should throw an error if length is not a number", () => {
+		expect(() => generatePassword("10")).toThrow("Length must be a number");
+	});
 
-    test("should throw an error if length is less than 6", () => {
-        expect(() => generatePassword(5)).toThrow(
-            "Length must be a number greater than or equal to 6",
-        );
-    });
+	test("should throw an error if length is less than 6", () => {
+		expect(() => generatePassword(5)).toThrow(
+			"Length must be a number greater than or equal to 6",
+		);
+	});
 
-    test("should return a password with the correct length", () => {
-        const password = generatePassword(10);
-        expect(password).toHaveLength(10);
-    });
+	test("should return a password with the correct length", () => {
+		const password = generatePassword(10);
+		expect(password).toHaveLength(10);
+	});
+
+	test("should return a predefined password", () => {
+		jest.spyOn(global.Math, "random").mockReturnValue(0.123456789);
+		const password = generatePassword(10, {
+			uppercase: false,
+			numbers: false,
+			specialChars: false,
+		});
+		expect(password).toBe("dddddddddd");
+	});
+
+	test("should return a predefined uppercase password ", () => {
+		jest.spyOn(global.Math, "random").mockReturnValue(0.55555555);
+		const password = generatePassword(10, {
+			uppercase: true,
+			numbers: false,
+			specialChars: false,
+		});
+		expect(password).toBe("CCCCCCCCCC");
+	});
+
+	test("should return a predefined numbers password ", () => {
+		jest.spyOn(global.Math, "random").mockReturnValue(0.88888888);
+		const password = generatePassword(10, {
+			uppercase: false,
+			numbers: true,
+			specialChars: false,
+		});
+		expect(password).toBe("5555555555");
+	});
+
+	test("should return a predefined specialChars password ", () => {
+		jest.spyOn(global.Math, "random").mockReturnValue(0.99999999);
+		const password = generatePassword(10, {
+			uppercase: false,
+			numbers: false,
+			specialChars: true,
+		});
+		expect(password).toBe("??????????");
+	});
+
+	test("should return a predefined password with all options enabled", () => {
+		const randomValues = [
+			0.99999999, 0.99999999, 0.99999999, 0.99999999, 0.3333333, 0.3333333,
+			0.3333333, 0.3333333, 0.66666666, 0.66666666,
+		];
+		jest
+			.spyOn(global.Math, "random")
+			.mockImplementation(() => randomValues.shift());
+		const password = generatePassword(10, {
+			uppercase: true,
+			numbers: true,
+			specialChars: true,
+		});
+		expect(password).toBe("????CCCC55");
+	});
 });
-
-
