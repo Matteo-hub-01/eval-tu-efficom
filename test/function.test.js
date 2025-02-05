@@ -121,8 +121,12 @@ describe("process Purchase function", () => {
 		}
 	});
 
-    test("should throw an error if element array is not a negative number", () => {
+    test("should return total price", () => {
         expect(processPurchase([4], 25)).toEqual(104);
+	});
+
+	test("should return not total price", () => {
+        expect(processPurchase([4], 25)).not.toEqual(100);
 	});
 
 	test("should log the correct message", () => {
