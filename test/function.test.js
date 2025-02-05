@@ -43,4 +43,26 @@ describe("calculateTotalPrice function", () => {
 			expect(e.message).toBe("Tax rate must be a number");
 		}
 	});
+
+    test("should throw an error if element array is not a number", () => {
+		try {
+			const result = calculateTotalPrice(["4"], 25);
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Each price must be a non-negative number");
+		}
+	});
+
+    test("should throw an error if element array is not a negative number", () => {
+		try {
+			const result = calculateTotalPrice([-4], 25);
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Each price must be a non-negative number");
+		}
+	});
+
+    test("should throw an error if element array is not a negative number", () => {
+        expect(calculateTotalPrice([4], 25)).toEqual(104);
+	});
 });
