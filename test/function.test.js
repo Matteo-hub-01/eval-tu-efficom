@@ -201,16 +201,16 @@ describe("generatePassword function", () => {
 	test("should return a predefined password with all options enabled", () => {
 		const randomValues = [
 			0.99999999, 0.99999999, 0.99999999, 0.99999999, 0.3333333, 0.3333333,
-			0.3333333, 0.3333333, 0.66666666, 0.66666666,
+			0.3333333, 0.3333333, 0.66666666, 0.66666666, 0.11, 0.11, 0.11,
 		];
 		jest
 			.spyOn(global.Math, "random")
 			.mockImplementation(() => randomValues.shift());
-		const password = generatePassword(10, {
+		const password = generatePassword(13, {
 			uppercase: true,
 			numbers: true,
 			specialChars: true,
 		});
-		expect(password).toBe("????CCCC55");
+		expect(password).toBe("????CCCC55jjj");
 	});
 });
