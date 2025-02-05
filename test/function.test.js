@@ -1,45 +1,46 @@
-const { isEven, calculateTotalPrice, processPurchase, sendNotification, generatePassword } = require("./../src/function.js");
+const {
+	isEven,
+	calculateTotalPrice,
+	processPurchase,
+	sendNotification,
+	generatePassword,
+} = require("./../src/function.js");
 
-describe ('',()=>{
+describe("isEven function", () => {
+	test("should throw an error if input is not a number", () => {
+		try {
+			const result = isEven(4);
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Input must be a number");
+		}
+	});
 
-    test("",() =>{
-        try{
-            let result = isEven(4);
-        }
-        catch(e){
-            expect(e).not.toBeNull();
-            expect(e.message).toBe("Input must be a number");
-        } 
-    });
+	test("should return true for even numbers", () => {
+		expect(isEven(4)).toBe(true);
+	});
 
+	test("should return false for odd numbers", () => {
+		expect(isEven(5)).toBe(false);
+	});
+});
 
-    test("",() =>{
-        expect(isEven(4)).toBe(true);
-    });
-})
+describe("calculateTotalPrice function", () => {
+	test("should throw an error if input is not an array", () => {
+		try {
+			const result = calculateTotalPrice(4);
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Prices must be an array");
+		}
+	});
 
-describe ('',()=>{
-
-    test("",() =>{
-        try{
-            let result = calculateTotalPrice(4);
-        }
-        catch(e){
-            expect(e).not.toBeNull();
-            expect(e.message).toBe("Prices must be an array");
-        } 
-    });
-
-    test("",() =>{
-        try{
-            let result = calculateTotalPrice(4);
-        }
-        catch(e){
-            expect(e).not.toBeNull();
-            expect(e.message).toBe("Prices must be an array");
-        } 
-    });
-
-
-})
-
+	test("should throw an error if input is not an array", () => {
+		try {
+			const result = calculateTotalPrice([4], "25");
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Tax rate must be a number");
+		}
+	});
+});
