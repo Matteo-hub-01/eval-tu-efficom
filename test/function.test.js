@@ -78,3 +78,61 @@ describe("sendNotification function", () => {
 		consoleSpy.mockRestore();
 	});
 });
+
+
+describe("process Purchase function", () => {
+	test("should throw an error if input is not an array", () => {
+		try {
+			const result = processPurchase(4);
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Prices must be an array");
+		}
+	});
+
+	test("should throw an error if input is not an array", () => {
+		try {
+			const result = processPurchase([4], "25");
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Tax rate must be a number");
+		}
+	});
+
+    test("should throw an error if element array is not a number", () => {
+		try {
+			const result = processPurchase(["4"], 25);
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Each price must be a non-negative number");
+		}
+	});
+
+    test("should throw an error if element array is not a negative number", () => {
+		try {
+			const result = processPurchase([-4], 25);
+		} catch (e) {
+			expect(e).not.toBeNull();
+			expect(e.message).toBe("Each price must be a non-negative number");
+		}
+	});
+
+    test("should throw an error if element array is not a negative number", () => {
+        expect(processPurchase([4], 25)).toEqual(104);
+	});
+
+	test("should log the correct message", () => {
+		const taxrate = 25;
+		const prices = [4];
+
+		const consoleSpy = jest.spyOn(console, "log");
+		const totalPrice = processPurchase(prices, taxrate);
+
+		expect(consoleSpy).toHaveBeenCalledWith(
+			`Notification envoyée : Votre total est de ${totalPrice.toFixed(2)} €`,
+		);
+		consoleSpy.mockRestore();
+	});
+});
+
+
