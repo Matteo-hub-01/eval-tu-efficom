@@ -66,3 +66,15 @@ describe("calculateTotalPrice function", () => {
         expect(calculateTotalPrice([4], 25)).toEqual(104);
 	});
 });
+
+describe("sendNotification function", () => {
+	test("should log the correct message", () => {
+		const consoleSpy = jest.spyOn(console, "log");
+		const message = "Test message";
+		sendNotification(message);
+		expect(consoleSpy).toHaveBeenCalledWith(
+			`Notification envoyée : ${message}`,
+		);
+		consoleSpy.mockRestore();
+	});
+});
