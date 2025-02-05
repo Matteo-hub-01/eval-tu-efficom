@@ -264,4 +264,13 @@ describe("generatePassword function", () => {
 		});
 		expect(password).toBe("????CCCC55jjj");
 	});
+
+	test('should throw an error if no character types are enabled', () => {
+		try {
+			const invalidOptions = { uppercase: false, numbers: false, specialChars: false };
+			generatePassword(12, invalidOptions);
+		  } catch (error) {
+			console.log(error.message);
+		  }
+	});
 });
