@@ -272,6 +272,6 @@ describe("generatePassword function", () => {
 				numbers: false,
 				specialChars: false,
 			}),
-		).not.toThrow();
+		).not.toThrow("At least one character type must be enabled");
 	});
 });
