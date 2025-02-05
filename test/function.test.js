@@ -135,4 +135,21 @@ describe("process Purchase function", () => {
 	});
 });
 
+describe("generatePassword function", () => {
+    test("should throw an error if length is not a number", () => {
+        expect(() => generatePassword("10")).toThrow("Length must be a number");
+    });
+
+    test("should throw an error if length is less than 6", () => {
+        expect(() => generatePassword(5)).toThrow(
+            "Length must be a number greater than or equal to 6",
+        );
+    });
+
+    test("should return a password with the correct length", () => {
+        const password = generatePassword(10);
+        expect(password).toHaveLength(10);
+    });
+});
+
 
