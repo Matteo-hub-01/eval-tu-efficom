@@ -23,6 +23,22 @@ describe("isEven function", () => {
 	test("should return false for odd numbers", () => {
 		expect(isEven(5)).toBe(false);
 	});
+
+	test("should return true for zero", () => {
+        expect(isEven(0)).toBe(true);
+    });
+
+    test("should return false for negative odd numbers", () => {
+        expect(isEven(-3)).toBe(false);
+    });
+
+    test("should return true for negative even numbers", () => {
+        expect(isEven(-4)).toBe(true);
+    });
+
+    test("should return false for NaN", () => {
+        expect(isEven(Number.NaN)).toBe(false);
+    });
 });
 
 describe("calculateTotalPrice function", () => {
