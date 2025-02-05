@@ -25,20 +25,20 @@ describe("isEven function", () => {
 	});
 
 	test("should return true for zero", () => {
-        expect(isEven(0)).toBe(true);
-    });
+		expect(isEven(0)).toBe(true);
+	});
 
-    test("should return false for negative odd numbers", () => {
-        expect(isEven(-3)).toBe(false);
-    });
+	test("should return false for negative odd numbers", () => {
+		expect(isEven(-3)).toBe(false);
+	});
 
-    test("should return true for negative even numbers", () => {
-        expect(isEven(-4)).toBe(true);
-    });
+	test("should return true for negative even numbers", () => {
+		expect(isEven(-4)).toBe(true);
+	});
 
-    test("should return false for NaN", () => {
-        expect(isEven(Number.NaN)).toBe(false);
-    });
+	test("should return false for NaN", () => {
+		expect(isEven(Number.NaN)).toBe(false);
+	});
 });
 
 describe("calculateTotalPrice function", () => {
@@ -51,7 +51,7 @@ describe("calculateTotalPrice function", () => {
 		}
 	});
 
-	test("should throw an error if input is not an array", () => {
+	test("should throw an error if tax rate is not a number", () => {
 		try {
 			const result = calculateTotalPrice([4], "25");
 		} catch (e) {
@@ -60,7 +60,7 @@ describe("calculateTotalPrice function", () => {
 		}
 	});
 
-	test("should throw an error if element array is not a number", () => {
+	test("should throw an error if element in array is not a number", () => {
 		try {
 			const result = calculateTotalPrice(["4"], 25);
 		} catch (e) {
@@ -69,7 +69,7 @@ describe("calculateTotalPrice function", () => {
 		}
 	});
 
-	test("should throw an error if element array is not a negative number", () => {
+	test("should throw an error if element in array is a negative number", () => {
 		try {
 			const result = calculateTotalPrice([-4], 25);
 		} catch (e) {
@@ -78,12 +78,16 @@ describe("calculateTotalPrice function", () => {
 		}
 	});
 
-	test("should return total price", () => {
-		expect(calculateTotalPrice([4], 25)).toEqual(104);
+	test("should return total price for empty cart", () => {
+		expect(calculateTotalPrice([], 0.1)).toEqual(0);
 	});
 
-	test("should return not total price", () => {
-		expect(calculateTotalPrice([4], 25)).not.toEqual(100);
+	test("should handle zero tax rate correctly", () => {
+		expect(calculateTotalPrice([10, 20, 30], 0)).toEqual(60);
+	});
+
+	test("should return negative total price for negative prices", () => {
+		expect(calculateTotalPrice([20, 30], -0.1)).toEqual(45);
 	});
 });
 
@@ -97,9 +101,19 @@ describe("sendNotification function", () => {
 		);
 		consoleSpy.mockRestore();
 	});
+
+	test("should log an empty message correctly", () => {
+		const consoleSpy = jest.spyOn(console, "log");
+		const message = "";
+		sendNotification(message);
+		expect(consoleSpy).toHaveBeenCalledWith(
+			`Notification envoyée : ${message}`,
+		);
+		consoleSpy.mockRestore();
+	});
 });
 
-describe("process Purchase function", () => {
+describe("processPurchase function", () => {
 	test("should throw an error if input is not an array", () => {
 		try {
 			const result = processPurchase(4);
@@ -109,7 +123,7 @@ describe("process Purchase function", () => {
 		}
 	});
 
-	test("should throw an error if input is not an array", () => {
+	test("should throw an error if tax rate is not a number", () => {
 		try {
 			const result = processPurchase([4], "25");
 		} catch (e) {
@@ -118,7 +132,7 @@ describe("process Purchase function", () => {
 		}
 	});
 
-	test("should throw an error if element array is not a number", () => {
+	test("should throw an error if element in array is not a number", () => {
 		try {
 			const result = processPurchase(["4"], 25);
 		} catch (e) {
@@ -127,7 +141,7 @@ describe("process Purchase function", () => {
 		}
 	});
 
-	test("should throw an error if element array is not a negative number", () => {
+	test("should throw an error if element in array is a negative number", () => {
 		try {
 			const result = processPurchase([-4], 25);
 		} catch (e) {
@@ -137,24 +151,36 @@ describe("process Purchase function", () => {
 	});
 
 	test("should return total price", () => {
-		expect(processPurchase([4], 25)).toEqual(104);
+		expect(processPurchase([4], 0.25)).toEqual(5);
 	});
 
-	test("should return not total price", () => {
-		expect(processPurchase([4], 25)).not.toEqual(100);
+	test("should not return incorrect total price", () => {
+		expect(processPurchase([4], 0.25)).not.toEqual(4);
 	});
 
 	test("should log the correct message", () => {
-		const taxrate = 25;
+		const taxRate = 0.25;
 		const prices = [4];
 
 		const consoleSpy = jest.spyOn(console, "log");
-		const totalPrice = processPurchase(prices, taxrate);
+		const totalPrice = processPurchase(prices, taxRate);
 
 		expect(consoleSpy).toHaveBeenCalledWith(
 			`Notification envoyée : Votre total est de ${totalPrice.toFixed(2)} €`,
 		);
 		consoleSpy.mockRestore();
+	});
+
+	test("should return total price for empty cart", () => {
+		expect(processPurchase([], 0.1)).toEqual(0);
+	});
+
+	test("should handle zero tax rate correctly", () => {
+		expect(processPurchase([10, 20, 30], 0)).toEqual(60);
+	});
+
+	test("should return negative total price for negative prices", () => {
+		expect(processPurchase([20, 30], -0.1)).toEqual(45);
 	});
 });
 
